@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Мама, я люблю тебя</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap">
+<style>
+/* Layout: one calm column of oversized type. Every statement gets a full-width band; two bands are pinned and driven by scroll (life = growing rings, love = growing scale). */
+:root{
+  --bg:#fbf6f7;
+  --ink:#26141d;
+  --muted:#7a6870;
+  --line:#e6d8dd;
+  --accent:#c8173f;
+  --accent-soft:rgba(200,23,63,.08);
+  --on-accent:#ffffff;
+  --blush:#f2a0b2;
+  --display:"Cormorant Garamond","Cormorant",Georgia,"Times New Roman",serif;
+  --body:"Jost",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#160e13;--ink:#f7ecf0;--muted:#b3a0a9;--line:#3a2a33;
+    --accent:#ff7a96;--accent-soft:rgba(255,122,150,.13);--on-accent:#2a0c16;--blush:#ffc3d0;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#160e13;--ink:#f7ecf0;--muted:#b3a0a9;--line:#3a2a33;
+  --accent:#ff7a96;--accent-soft:rgba(255,122,150,.13);--on-accent:#2a0c16;--blush:#ffc3d0;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-weight:300;font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+main{display:block;overflow-x:clip}
+.in{width:100%;max-width:1240px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,p,ul{margin:0}
+.h2{font-family:var(--display);font-weight:300;font-size:clamp(2.6rem,9.5vw,7rem);line-height:1.02;letter-spacing:-.02em;text-wrap:balance}
+.h2 em{font-style:italic;color:var(--accent)}
+.lead{max-width:34ch;margin-top:1.1em;color:var(--muted);font-size:clamp(1.05rem,2.4vw,1.3rem)}
+
+/* reveal: visible by default, JS marks only below-the-fold items */
+[data-r]{transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+[data-r].pre{opacity:0;transform:translateY(22px)}
+
+/* hero */
+.hero{padding-block:clamp(48px,11vw,120px) clamp(40px,7vw,80px)}
+.hero .in{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;column-gap:clamp(16px,4vw,48px);row-gap:clamp(20px,5vw,40px)}
+h1{font-family:var(--display);font-weight:300;line-height:.92}
+.ln{display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
+.ln>span{display:inline-block;animation:rise 1.05s cubic-bezier(.2,.7,.2,1) both}
+.ln+.ln>span{animation-delay:.2s}
+.ln i{font-style:normal;color:var(--accent)}
+.h1a{font-size:clamp(5.4rem,27vw,17rem);letter-spacing:-.03em}
+.h1b{font-size:clamp(2.1rem,9.6vw,6.4rem);font-style:italic;letter-spacing:-.01em;margin-top:.12em}
+.heart{width:clamp(120px,24vw,280px);aspect-ratio:1;overflow:visible;transform-origin:50% 60%;animation:beat 2.6s 3.4s ease-in-out infinite}
+.heart path{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;animation:draw 2.3s .5s cubic-bezier(.6,.1,.2,1) both,fillin 1.2s 2.5s ease both}
+.hint{grid-column:1/-1;display:flex;align-items:center;gap:.8rem;color:var(--muted);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase}
+.hint i{display:block;width:44px;height:1px;background:var(--muted);transform-origin:left;animation:grow 2.4s ease-in-out infinite}
+@media (max-width:640px){
+  .hero .in{grid-template-columns:minmax(0,1fr)}
+  .heart{width:34vw;justify-self:start}
+}
+
+/* life: pinned, rings grow from one beating dot */
+.life{height:250vh;position:relative}
+.pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.rings{position:absolute;left:50%;top:38%;width:130vmin;height:130vmin;transform:translate(-50%,-50%);overflow:visible}
+.rings .rg{fill:none;stroke:var(--accent);stroke-width:1.4}
+.rings .core{fill:var(--accent);transform-box:fill-box;transform-origin:center;animation:lub 1.7s ease-in-out infinite}
+.life .txt{position:absolute;left:0;right:0;bottom:clamp(28px,9svh,96px);margin-inline:auto;text-shadow:0 0 14px var(--bg),0 0 30px var(--bg)}
+
+/* win: growth line */
+.win{padding-block:clamp(88px,16vw,200px)}
+.win .h2{max-width:13ch}
+.win .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(32px,6vw,96px);align-items:center;margin-top:clamp(40px,7vw,88px)}
+.pts{list-style:none;padding:0}
+.pts li{border-top:1px solid var(--line);padding:1.1rem 0;font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.2}
+.pts li:last-child{border-bottom:1px solid var(--line)}
+.chart{display:block;width:100%;height:auto;overflow:visible}
+.chart .gl{stroke:var(--line);stroke-width:1}
+.chart .ln2{fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1}
+.chart text{fill:var(--muted);font-family:var(--body);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+#star{fill:var(--accent);transform-box:fill-box;transform-origin:center;transform:scale(var(--k,1))}
+@media (max-width:760px){.win .grid{grid-template-columns:minmax(0,1fr)}}
+
+/* love: pinned scale */
+.love{height:340vh;position:relative}
+.love .pin{display:grid;align-items:center}
+.disc{position:absolute;left:50%;top:50%;width:44vmin;height:44vmin;margin:-22vmin 0 0 -22vmin;border-radius:50%;background:var(--accent-soft);transform:scale(var(--s,1));will-change:transform}
+.love .in{position:relative;z-index:1}
+.l1{font-family:var(--display);font-style:italic;font-weight:300;font-size:clamp(1.8rem,5.4vw,3.6rem);line-height:1.1}
+.stages{display:grid;margin-top:.1em}
+.st{grid-area:1/1;font-family:var(--display);font-weight:300;color:var(--accent);font-size:clamp(3.2rem,13.5vw,10.5rem);line-height:.98;letter-spacing:-.025em;text-wrap:balance;opacity:0;transform:translateY(.25em);transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.st.on{opacity:1;transform:none}
+.inf{display:block;width:.9em;height:.45em;margin-top:.12em;overflow:visible}
+.inf path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1;transition:stroke-dashoffset 1.8s ease .3s}
+.st.on .inf path{stroke-dashoffset:0}
+.ruler{position:relative;width:min(100%,560px);height:2px;background:var(--line);margin-top:clamp(32px,6vw,64px)}
+.ruler .fill{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(0)}
+.tick{position:absolute;top:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:var(--bg);border:1.5px solid var(--line);transition:border-color .4s,background .4s}
+.tick.hit{border-color:var(--accent);background:var(--accent)}
+
+/* finale */
+.end{padding-block:clamp(88px,16vw,200px) clamp(40px,7vw,72px);background:var(--accent-soft)}
+.end .h2{font-size:clamp(3.4rem,15vw,11rem)}
+.btn{appearance:none;-webkit-appearance:none;border:0;cursor:pointer;display:inline-flex;align-items:center;gap:.7em;min-height:56px;margin-top:clamp(28px,5vw,48px);padding:0 2rem;border-radius:999px;background:var(--accent);color:var(--on-accent);font:500 1.05rem/1 var(--body);letter-spacing:.02em;transition:transform .2s ease}
+.btn:active{transform:scale(.97)}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.btn svg{width:1.2em;height:1.2em;fill:currentColor}
+.sent{min-height:2.4rem;margin-top:1.1rem;color:var(--accent);font-family:var(--display);font-style:italic;font-size:clamp(1.5rem,3.6vw,2rem);line-height:1.2}
+.sign{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:clamp(56px,10vw,112px);padding-top:1.4rem;border-top:1px solid var(--line);color:var(--muted);font-size:.95rem}
+.sign svg{width:1.1rem;height:1.1rem;fill:var(--accent)}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
+
+@keyframes rise{from{transform:translateY(105%)}to{transform:none}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes fillin{from{fill:transparent}to{fill:var(--accent-soft)}}
+@keyframes beat{0%,100%{transform:scale(1)}12%{transform:scale(1.05)}24%{transform:scale(1)}36%{transform:scale(1.04)}48%{transform:scale(1)}}
+@keyframes lub{0%,60%,100%{transform:scale(1)}15%{transform:scale(1.8)}30%{transform:scale(1.15)}45%{transform:scale(1.6)}}
+@keyframes grow{0%{transform:scaleX(.15)}50%{transform:scaleX(1)}100%{transform:scaleX(.15)}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<main lang="ru">
+
+<header class="hero">
+  <div class="in">
+    <h1>
+      <span class="ln"><span class="h1a">Мама<i>,</i></span></span>
+      <span class="ln"><span class="h1b">я люблю тебя<i>.</i></span></span>
+    </h1>
+    <svg class="heart" viewBox="0 0 100 100" aria-hidden="true">
+      <path pathLength="1" d="M50 88 C18 62 6 40 18 24 C28 11 46 14 50 30 C54 14 72 11 82 24 C94 40 82 62 50 88 Z"/>
+    </svg>
+    <p class="hint"><i></i>листай вниз</p>
+  </div>
+</header>
+
+<section class="life" id="life" aria-labelledby="t-life">
+  <div class="pin">
+    <svg class="rings" viewBox="-300 -300 600 600" aria-hidden="true">
+      <circle class="rg" r="0"/><circle class="rg" r="0"/><circle class="rg" r="0"/><circle class="rg" r="0"/><circle class="rg" r="0"/><circle class="rg" r="0"/><circle class="rg" r="0"/>
+      <circle class="core" r="7"/>
+    </svg>
+    <div class="in txt">
+      <h2 class="h2" id="t-life">Ты дала мне <em>жизнь.</em></h2>
+      <p class="lead">Всё, что у меня есть, началось с тебя.</p>
+    </div>
+  </div>
+</section>
+
+<section class="win" aria-labelledby="t-win">
+  <div class="in">
+    <h2 class="h2" id="t-win" data-r><em>Благодаря тебе</em> я добиваюсь успехов.</h2>
+    <div class="grid">
+      <ul class="pts">
+        <li data-r>Ты веришь в меня даже в трудные дни.</li>
+        <li data-r style="--d:.08s">Ты рядом, когда мне нужна поддержка.</li>
+        <li data-r style="--d:.16s">Ты учишь меня не сдаваться.</li>
+        <li data-r style="--d:.24s">Каждая моя победа — немного и твоя.</li>
+      </ul>
+      <svg class="chart" id="chart" viewBox="0 0 400 232" role="img" aria-label="Линия роста: путь от первого шага к победе">
+        <line class="gl" x1="0" y1="60" x2="400" y2="60"/>
+        <line class="gl" x1="0" y1="110" x2="400" y2="110"/>
+        <line class="gl" x1="0" y1="160" x2="400" y2="160"/>
+        <line class="gl" x1="0" y1="210" x2="400" y2="210"/>
+        <path class="ln2" id="chartLine" pathLength="1" d="M8 200 L50 184 L84 192 L130 146 L172 158 L214 106 L256 120 L306 60 L346 76 L380 16"/>
+        <path id="star" d="M380 0 L384.5 11.5 L396 16 L384.5 20.5 L380 32 L375.5 20.5 L364 16 L375.5 11.5 Z"/>
+        <text x="8" y="228">первый шаг</text>
+        <text x="352" y="22" text-anchor="end">победа</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="love" id="love" aria-labelledby="t-love">
+  <div class="pin">
+    <div class="disc" id="disc" aria-hidden="true"></div>
+    <div class="in">
+      <p class="l1" id="t-love">Я люблю тебя</p>
+      <div class="stages">
+        <p class="st on">сильно</p>
+        <p class="st">очень сильно</p>
+        <p class="st">в&nbsp;100 раз сильнее</p>
+        <p class="st">в&nbsp;миллион раз сильнее</p>
+        <p class="st">бесконечно
+          <svg class="inf" viewBox="0 0 80 40" aria-hidden="true"><path pathLength="1" d="M10 20 C10 5 30 5 40 20 C50 35 70 35 70 20 C70 5 50 5 40 20 C30 35 10 35 10 20 Z"/></svg>
+        </p>
+      </div>
+      <div class="ruler" aria-hidden="true">
+        <i class="fill" id="fill"></i>
+        <span class="tick" style="left:0%"></span><span class="tick" style="left:25%"></span><span class="tick" style="left:50%"></span><span class="tick" style="left:75%"></span><span class="tick" style="left:100%"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="end" aria-labelledby="t-end">
+  <div class="in">
+    <h2 class="h2" id="t-end" data-r>Спасибо, <em>мама.</em></h2>
+    <p class="lead" data-r style="--d:.1s">За жизнь, за веру в меня и за каждый день рядом.</p>
+    <button class="btn" id="hug" type="button" data-r style="--d:.2s">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 88 C18 62 6 40 18 24 C28 11 46 14 50 30 C54 14 72 11 82 24 C94 40 82 62 50 88 Z"/></svg>
+      Обнять маму
+    </button>
+    <p class="sent" id="sent" role="status" aria-live="polite"></p>
+    <div class="sign">
+      <span>С любовью, твой ребёнок</span>
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 88 C18 62 6 40 18 24 C28 11 46 14 50 30 C54 14 72 11 82 24 C94 40 82 62 50 88 Z"/></svg>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script>
+(function(){
+  var doc=document;
+  function $(s){return doc.querySelector(s)}
+  function $$(s){return Array.prototype.slice.call(doc.querySelectorAll(s))}
+  function clamp(x,a,b){return x<a?a:x>b?b:x}
+  function ease(t){return 1-Math.pow(1-t,3)}
+  var reduce=false;
+  try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}
+  var vh=innerHeight;
+
+  /* reveals: only items below the fold get hidden, then released as they arrive */
+  if('IntersectionObserver' in window && !reduce){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target)}
+      });
+    },{threshold:.12});
+    $$('[data-r]').forEach(function(el){
+      if(el.getBoundingClientRect().top>vh){el.classList.add('pre');io.observe(el)}
+    });
+  }
+
+  function pinP(sec){
+    var r=sec.getBoundingClientRect();
+    return clamp(-r.top/Math.max(1,r.height-vh),0,1);
+  }
+
+  /* life: rings expand from the dot */
+  var life=$('#life'), rings=$$('#life .rg');
+  function drawLife(){
+    var p=pinP(life);
+    rings.forEach(function(c,i){
+      var t=clamp((p-i*.06)/.55,0,1);
+      c.setAttribute('r',((36+i*40)*ease(t)*1.6).toFixed(1));
+      c.style.opacity=(0.9-i*0.1).toFixed(2);
+    });
+  }
+
+  /* win: the growth line draws itself, a spark lands at the end */
+  var chart=$('#chart'), line=$('#chartLine'), star=$('#star');
+  function drawWin(){
+    var r=chart.getBoundingClientRect();
+    var p=clamp((vh*.92-r.top)/(vh*.45+r.height/2),0,1);
+    line.style.strokeDashoffset=String((1-ease(p)).toFixed(4));
+    star.style.setProperty('--k',clamp((p-.9)/.1,0,1).toFixed(3));
+  }
+
+  /* love: scale climbs from "сильно" to "бесконечно" */
+  var love=$('#love'), disc=$('#disc'), fill=$('#fill');
+  var sts=$$('#love .st'), ticks=$$('#love .tick'), last=-1;
+  function drawLove(){
+    var p=pinP(love);
+    disc.style.setProperty('--s',(1+p*5.4).toFixed(3));
+    fill.style.transform='scaleX('+p.toFixed(4)+')';
+    var idx=Math.min(sts.length-1,Math.round(p*(sts.length-1)));
+    if(idx!==last){
+      sts.forEach(function(s,i){s.classList.toggle('on',i===idx)});
+      last=idx;
+    }
+    ticks.forEach(function(t,i){t.classList.toggle('hit',p>=i/(ticks.length-1)-.001)});
+  }
+
+  var queued=false;
+  function update(){queued=false;vh=innerHeight;drawLife();drawWin();drawLove()}
+  function req(){if(!queued){queued=true;requestAnimationFrame(update)}}
+  addEventListener('scroll',req,{passive:true});
+  addEventListener('resize',req);
+  addEventListener('load',req);
+  update();
+
+  /* hug: hearts float up from the button */
+  var btn=$('#hug'), msg=$('#sent'), cv=$('#fx'), ctx=cv.getContext&&cv.getContext('2d');
+  var HEART=null;
+  try{HEART=new Path2D('M50 88 C18 62 6 40 18 24 C28 11 46 14 50 30 C54 14 72 11 82 24 C94 40 82 62 50 88 Z')}catch(e){}
+  var parts=[], raf=0, W=0, H=0, count=0;
+  function size(){
+    var d=Math.min(2,window.devicePixelRatio||1);
+    W=innerWidth;H=innerHeight;
+    cv.width=Math.round(W*d);cv.height=Math.round(H*d);
+    if(ctx)ctx.setTransform(d,0,0,d,0,0);
+  }
+  size();
+  addEventListener('resize',size);
+  function step(){
+    ctx.clearRect(0,0,W,H);
+    parts=parts.filter(function(p){return p.life<p.max});
+    parts.forEach(function(p){
+      p.life++;
+      p.vx*=.985;p.vy=p.vy*.985-.03;
+      p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;
+      var k=p.life/p.max;
+      ctx.globalAlpha=k<.7?1:1-(k-.7)/.3;
+      ctx.fillStyle=p.c;
+      ctx.save();
+      ctx.translate(p.x,p.y);ctx.rotate(p.rot);
+      var sc=p.s/100;ctx.scale(sc,sc);ctx.translate(-50,-50);
+      ctx.fill(HEART);
+      ctx.restore();
+    });
+    ctx.globalAlpha=1;
+    if(parts.length){raf=requestAnimationFrame(step)}else{raf=0;ctx.clearRect(0,0,W,H)}
+  }
+  function burst(){
+    var b=btn.getBoundingClientRect(), x=b.left+b.width/2, y=b.top+b.height/2;
+    var cs=getComputedStyle(doc.documentElement);
+    var cols=[cs.getPropertyValue('--accent').trim()||'#c8173f',cs.getPropertyValue('--blush').trim()||'#f2a0b2'];
+    for(var i=0;i<46;i++){
+      var a=-Math.PI/2+(Math.random()-.5)*2.4, v=3+Math.random()*7;
+      parts.push({x:x,y:y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,s:10+Math.random()*26,rot:(Math.random()-.5)*.8,vr:(Math.random()-.5)*.06,life:0,max:90+Math.random()*60,c:cols[i%2]});
+    }
+    if(!raf)raf=requestAnimationFrame(step);
+  }
+  btn.addEventListener('click',function(){
+    count++;
+    msg.textContent=count===1?'Обнимашка отправлена!':'Обнимашек отправлено: '+count;
+    if(!reduce&&ctx&&HEART)burst();
+  });
+})();
+</script>
+
+</body>
+</html>
